@@ -3,6 +3,8 @@ import hashlib
 import os
 import dbmanage
 import Encryption
+import random
+import string
 
 KeyPassword = ""
 salt = ''
@@ -47,14 +49,26 @@ def get_list():
         sol.append((name,password))
     return sol
 
+def gen_random_pass():
+    lower = string.ascii_lowercase 
+    upper = lower.upper()
+    special = "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" #string from owasp
+    all = lower + upper + special
+    pnss = ""
+    length = 10 +  random.randint(1, 10)
+    while not(pnss in set(lower) and pnss in set(upper) and pnss in set(special)):
+        pnss = ''.join(random.choice(all) for _ in range(length))
+    return pnss
 
 def main_loop():
-    print("Input: 1(get password lists), 2(input name/password pair), 3(search for a password), 4(quit): ")
+    print("Input: 1(get password lists), 2(input name/password pair), 3(search for a password), 4(generate random secure password), 5(quit): ")
     num = int(input())
     
     match num:
-        case 4:
+        case 5:
             return False
+        case 4:
+            print(gen_random_pass()) 
         case 3:
             print("not implemented")
         case 2:
